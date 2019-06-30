@@ -9,11 +9,7 @@
             "type": "python",
             "request": "launch",
             "program": "${file}",
-            "console": "integratedTerminal",
-            "args": [
-                "D:\\Shared",
-                "D:\\Media\\Photo\\work"
-            ]
+            "console": "integratedTerminal"
         }
     ]
 }
