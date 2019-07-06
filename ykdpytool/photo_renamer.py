@@ -9,6 +9,12 @@ from ykdpyutil import files
 from ykdpyutil import datetimes
 
 
+TEXT_CANT_GET_EXIF = "{} : EXIF情報が取得できないため、作成日時にてファイル名を設定します。 "
+TEXT_ADD_NUMBER = "{} : 出力先パスが存在するため、連番を付与しました。  "
+TEXT_COMPLETE = "\r{}/{} 完了しました。 {}"
+TEXT_END = "終了しました。"
+
+
 def get_exif(file):
     im = Image.open(file)
 
@@ -48,7 +54,7 @@ def get_datetime(file):
     result = datetimes.get_from_str(
         get_datetime_org_text(file), "%Y:%m:%d %H:%M:%S.%f")
     if result is None:
-        print("\n{} : EXIF情報が取得できないため、作成日時にてファイル名を設定します。 ".format(file))
+        print("\n" + TEXT_CANT_GET_EXIF.format(file))
         result = files.get_created(file)
     return result
 
@@ -61,7 +67,7 @@ def get_dst_path(dst_parent, filename):
             dst_path = os.path.join(
                 dst_parent, filename + "-" + str(idx) + ".jpg")
             idx += 1
-        print("\n{} : 出力先パスが存在するため、連番を付与しました。  ".format(dst_path))
+        print("\n" + TEXT_ADD_NUMBER.format(dst_path))
     return dst_path
 
 
@@ -86,10 +92,10 @@ def main():
         files.copy(src_path, dst_path)
         files.modify_times(dst_path, dt)
 
-        print("\r{}/{} 完了しました。 {}".format(str(count).rjust(len(str(total))),
-                                          total, str(dst_path)), end="")
+        print(TEXT_COMPLETE.format(str(count).rjust(len(str(total))),
+                                   total, str(dst_path)), end="")
         count += 1
-    print("\n終了しました。")
+    print("\n" + TEXT_END)
 
 
 if __name__ == '__main__':
