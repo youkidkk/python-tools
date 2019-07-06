@@ -50,7 +50,7 @@
         },
         "ykdpyutil": {
             "git": "https://github.com/youkidkk/python-utils",
-            "ref": "b6b36aa99b24d260c315d4d340c57625c763b130"
+            "ref": "1b28d2dac0ed72b0bba3142be8d618edcb250397"
         }
     },
     "develop": {
