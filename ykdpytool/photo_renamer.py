@@ -5,8 +5,8 @@ from datetime import datetime
 from PIL import Image
 from PIL.ExifTags import TAGS
 
-from ykdpyutil.file import files
-from ykdpyutil.time import datetimes
+from ykdpyutil import files
+from ykdpyutil import datetimes
 
 
 def get_exif(file):
