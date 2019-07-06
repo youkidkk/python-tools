@@ -86,8 +86,8 @@ def main():
         files.copy(src_path, dst_path)
         files.modify_times(dst_path, dt)
 
-        print(("\r{:>" + str(len(str(total))) +
-               "}/{} 完了しました。 {}").format(count, total, str(dst_path)), end="")
+        print("\r{}/{} 完了しました。 {}".format(str(count).rjust(len(str(total))),
+                                          total, str(dst_path)), end="")
         count += 1
     print("\n終了しました。")
 
