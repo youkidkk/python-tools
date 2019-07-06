@@ -5,8 +5,7 @@ from datetime import datetime
 from PIL import Image
 from PIL.ExifTags import TAGS
 
-from ykdpyutil import files
-from ykdpyutil import datetimes
+from ykdpyutil import files, datetimes, texts
 
 
 TEXT_CANT_GET_EXIF = "{} : EXIF情報が取得できないため、作成日時にてファイル名を設定します。 "
@@ -80,6 +79,8 @@ def main():
         src_root, lambda p: files.get_suffix(p).lower() == "jpg")
     count = 1
     total = len(list)
+
+    pri_len = 0
     for src_path in list:
         rel_path = os.path.relpath(src_path, src_root)
         dst_parent = os.path.dirname(os.path.join(dst_root, rel_path))
@@ -92,8 +93,14 @@ def main():
         files.copy(src_path, dst_path)
         files.modify_times(dst_path, dt)
 
-        print(TEXT_COMPLETE.format(str(count).rjust(len(str(total))),
-                                   total, str(dst_path)), end="")
+        dst_rel = os.path.relpath(dst_path, dst_root)
+        result_text = TEXT_COMPLETE.format(
+            str(count).rjust(len(str(total))), total, str(dst_rel))
+        if texts.width(result_text) < pri_len:
+            result_text = result_text.ljust(pri_len)
+        pri_len = texts.width(result_text.rstrip())
+
+        print(result_text, end="")
         count += 1
     print("\n" + TEXT_END)
 
