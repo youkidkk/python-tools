@@ -70,6 +70,20 @@ def get_dst_path(dst_parent, filename):
     return dst_path
 
 
+pri_len = 0
+
+
+def print_result(dst_path, dst_root, count, total):
+    global pri_len
+    dst_rel = os.path.relpath(dst_path, dst_root)
+    result_text = TEXT_COMPLETE.format(
+        str(count).rjust(len(str(total))), total, str(dst_rel))
+    if texts.width(result_text) < pri_len:
+        result_text = result_text.ljust(pri_len)
+    pri_len = texts.width(result_text.rstrip())
+    print(result_text, end="")
+
+
 def main():
     src_root, dst_root, pattern = get_args()
 
@@ -80,7 +94,6 @@ def main():
     count = 1
     total = len(list)
 
-    pri_len = 0
     for src_path in list:
         rel_path = os.path.relpath(src_path, src_root)
         dst_parent = os.path.dirname(os.path.join(dst_root, rel_path))
@@ -93,14 +106,7 @@ def main():
         files.copy(src_path, dst_path)
         files.modify_times(dst_path, dt)
 
-        dst_rel = os.path.relpath(dst_path, dst_root)
-        result_text = TEXT_COMPLETE.format(
-            str(count).rjust(len(str(total))), total, str(dst_rel))
-        if texts.width(result_text) < pri_len:
-            result_text = result_text.ljust(pri_len)
-        pri_len = texts.width(result_text.rstrip())
-
-        print(result_text, end="")
+        print_result(dst_path, dst_root, count, total)
         count += 1
     print("\n" + TEXT_END)
 
