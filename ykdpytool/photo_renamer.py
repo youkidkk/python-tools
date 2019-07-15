@@ -93,7 +93,6 @@ def main():
         files.copy(src_path, dst_path)
         files.modify_times(dst_path, dt)
 
-        # print_result(dst_path, dst_root, count, total)
         dst_rel = os.path.relpath(dst_path, dst_root)
         result_text = TEXT_COMPLETE.format(
             str(count).rjust(len(str(total))), total, str(dst_rel))
