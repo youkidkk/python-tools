@@ -3,7 +3,7 @@ import os
 import threading
 from time import sleep
 
-from ykdpyutil.file import files
+from ykdpyutil import files
 
 target_dir = ""
 dest_dir = ""
