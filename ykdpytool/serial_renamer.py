@@ -26,8 +26,7 @@ def max_len(text_list):
 
 
 def rename(target_dir):
-    path_list = files.get_files(
-        target_dir, lambda p: os.path.samefile(os.path.dirname(p), target_dir))
+    path_list = files.get_files(target_dir, recursive=False)
     file_list = list(map(lambda p: os.path.basename(p), path_list))
     if not file_list:
         print("Error: 対象ファイルなし")
