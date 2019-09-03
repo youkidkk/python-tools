@@ -51,7 +51,7 @@ def rename(target_dir):
     df_list = list(
         map(lambda p: p[len(starts): len(p) - len(ends)], file_list))
 
-    if not all(list(map(lambda d: re.match("[0-9]+", d), df_list))):
+    if not all(map(lambda d: re.match("[0-9]+", d), df_list)):
         print("Error: 不一致部分に数値以外が含まれている")
         return
 
