@@ -35,7 +35,7 @@ def check_dir(path: str) -> bool:
     if os.path.isfile(path):
         print("'{}' is not directory.".format(path))
         return False
-    if len(files.get_paths(path)) > 1:
+    if len(files.get_paths(path, recursive=True)) > 1:
         print("'{}' is not empty.".format(path))
         return False
     return True
@@ -83,9 +83,9 @@ def move(target: str) -> None:
 
 
 def end_process() -> None:
-    for file in files.get_files(target_dir):
+    for file in files.get_files(target_dir, recursive=True):
         files.move(file, os.path.join(target_dir, os.path.basename(file)))
-    for dir in reversed(files.get_dirs(target_dir)):
+    for dir in reversed(files.get_dirs(target_dir, recursive=True)):
         os.rmdir(dir)
 
 
@@ -102,7 +102,9 @@ def main_loop() -> None:
         if cnt > max:
             cnt -= max
         targets = files.get_files(
-            target_dir, lambda p: os.path.dirname(p) == target_dir)
+            target_dir,
+            recursive=True,
+            path_filter=lambda p: os.path.dirname(p) == target_dir)
         for target in targets:
             try:
                 move(target)

@@ -76,7 +76,9 @@ def main():
     files.clear_dir(dst_root)
 
     list = files.get_files(
-        src_root, lambda p: files.get_suffix(p).lower() == "jpg")
+        src_root,
+        recursive=True,
+        path_filter=lambda p: files.get_suffix(p).lower() == "jpg")
     count = 1
     total = len(list)
 

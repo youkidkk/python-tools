@@ -10,17 +10,26 @@
         "name": "photo_renamer",
         "type": "python",
         "request": "launch",
-        "program": "${file}",
+        "program": "${workspaceFolder}/ykdpytool/photo_renamer.py",
         "console": "integratedTerminal",
         "args": [
             "D:/Shared",
             "D:/Media/Photo/work"
         ]
     }, {
+        "name": "auto_renamer",
+        "type": "python",
+        "request": "launch",
+        "program": "${workspaceFolder}/ykdpytool/auto_renamer.py",
+        "console": "integratedTerminal",
+        "args": [
+            "D:/Temp"
+        ]
+    }, {
         "name": "serial_renamer",
         "type": "python",
         "request": "launch",
-        "program": "${file}",
+        "program": "${workspaceFolder}/ykdpytool/serial_renamer.py",
         "console": "integratedTerminal",
         "args": [
             "D:/Temp"
