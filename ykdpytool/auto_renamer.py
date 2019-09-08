@@ -1,12 +1,12 @@
 import argparse
-import os
 import threading
+from pathlib import Path
 from time import sleep
 
 from ykdpyutil import files
 
-target_dir = ""
-dest_dir = ""
+target_dir = Path("")
+dest_dir = Path("")
 interval = 1
 length = 3
 
@@ -22,17 +22,17 @@ def get_args() -> None:
     args = parser.parse_args()
 
     global target_dir, dest_dir, interval, length
-    target_dir = args.target_dir
-    dest_dir = args.dest or target_dir
+    target_dir = Path(args.target_dir)
+    dest_dir = Path(args.dest or target_dir)
     interval = args.interval
     length = args.length
 
 
-def check_dir(path: str) -> bool:
-    if not os.path.exists(path):
+def check_dir(path: Path) -> bool:
+    if not path.exists():
         print("'{}' is not exists. : ".format(path))
         return False
-    if os.path.isfile(path):
+    if path.is_file():
         print("'{}' is not directory.".format(path))
         return False
     if len(files.get_paths(path, recursive=True)) > 1:
@@ -41,11 +41,11 @@ def check_dir(path: str) -> bool:
     return True
 
 
-def wait_update(target: str) -> None:
+def wait_update(target: Path) -> None:
     cnt = 0
     size_last = 0
     while True:
-        size = os.path.getsize(target)
+        size = target.stat().st_size
         if size_last == size:
             cnt += 1
         else:
@@ -56,7 +56,7 @@ def wait_update(target: str) -> None:
         sleep(interval)
 
 
-def move(target: str) -> None:
+def move(target: Path) -> None:
     prefix, suffix = files.get_prefix_suffix(target)
     if prefix is None:
         return
@@ -65,9 +65,11 @@ def move(target: str) -> None:
 
     max = int("9" * length)
     for idx in range(1, max):
-        dst = os.path.join(dest_dir, prefix, "{}-{}.{}"
-                           .format(prefix, str(idx).zfill(length), suffix))
-        if not os.path.exists(dst):
+        dst = Path(
+            dest_dir,
+            prefix,
+            "{}-{}.{}".format(prefix, str(idx).zfill(length), suffix))
+        if not dst.exists():
             while True:
                 try:
                     files.move(target, dst)
@@ -76,17 +78,17 @@ def move(target: str) -> None:
                     files.delete(dst)
                 sleep(interval)
             msg = "\r'{}' -> '{}'".format(
-                os.path.basename(target),
-                os.path.basename(dst))
+                target.name,
+                dst.name)
             print(msg)
             return None
 
 
 def end_process() -> None:
     for file in files.get_files(target_dir, recursive=True):
-        files.move(file, os.path.join(target_dir, os.path.basename(file)))
+        files.move(file, Path(target_dir, file.name))
     for dir in reversed(files.get_dirs(target_dir, recursive=True)):
-        os.rmdir(dir)
+        dir.rmdir()
 
 
 def main_loop() -> None:
@@ -104,7 +106,7 @@ def main_loop() -> None:
         targets = files.get_files(
             target_dir,
             recursive=True,
-            path_filter=lambda p: os.path.dirname(p) == target_dir)
+            path_filter=lambda p: p.parent.samefile(target_dir))
         for target in targets:
             try:
                 move(target)

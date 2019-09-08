@@ -1,6 +1,6 @@
 import argparse
-import os
 from datetime import datetime
+from pathlib import Path
 
 from PIL import Image
 from PIL.ExifTags import TAGS
@@ -46,7 +46,7 @@ def get_args():
                         default="%Y-%m%d_%H%M%S-%f")
     args = parser.parse_args()
 
-    return args.src_root, args.dst_root, args.pattern
+    return Path(args.src_root), Path(args.dst_root), args.pattern
 
 
 def get_datetime(file):
@@ -59,11 +59,11 @@ def get_datetime(file):
 
 
 def get_dst_path(dst_parent, filename):
-    dst_path = os.path.join(dst_parent, filename + ".jpg")
-    if os.path.exists(dst_path):
+    dst_path = Path(dst_parent, filename + ".jpg")
+    if dst_path.exists():
         idx = 1
-        while os.path.exists(dst_path):
-            dst_path = os.path.join(
+        while dst_path.exists():
+            dst_path = Path(
                 dst_parent, filename + "-" + str(idx) + ".jpg")
             idx += 1
         print("\n" + TEXT_ADD_NUMBER.format(dst_path))
@@ -84,8 +84,8 @@ def main():
 
     lp = console.LinePrinter()
     for src_path in list:
-        rel_path = os.path.relpath(src_path, src_root)
-        dst_parent = os.path.dirname(os.path.join(dst_root, rel_path))
+        rel_path = src_path.relative_to(src_root)
+        dst_parent = Path(dst_root, rel_path).parent
 
         dt = get_datetime(src_path)
 
@@ -95,7 +95,7 @@ def main():
         files.copy(src_path, dst_path)
         files.modify_times(dst_path, dt)
 
-        dst_rel = os.path.relpath(dst_path, dst_root)
+        dst_rel = dst_path.relative_to(dst_root)
         result_text = TEXT_COMPLETE.format(
             str(count).rjust(len(str(total))), total, str(dst_rel))
         lp.print(result_text)

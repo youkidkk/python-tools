@@ -1,6 +1,6 @@
 import argparse
-import os
 import re
+from pathlib import Path
 from ykdpyutil import files, texts
 
 
@@ -30,7 +30,7 @@ def rename(target_dir):
     path_list = files.get_files(target_dir, recursive=False)
 
     # ファイル名のリストを取得
-    file_list = list(map(lambda p: os.path.basename(p), path_list))
+    file_list = list(map(lambda p: p.name, path_list))
 
     if not file_list:
         # 該当ファイルなしの場合は終了
@@ -63,8 +63,8 @@ def rename(target_dir):
     for idx, src in enumerate(file_list):
         dst = df_list[idx].zfill(num_len) + ends
         print(src, "->", dst)
-        src_path = os.path.join(target_dir, src)
-        dst_path = os.path.join(target_dir, dst)
+        src_path = Path(target_dir, src)
+        dst_path = Path(target_dir, dst)
         if src_path != dst_path:
             files.move(src_path, dst_path)
 
@@ -73,7 +73,7 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("target_dir")
     args = parser.parse_args()
-    target_dir = args.target_dir
+    target_dir = Path(args.target_dir)
     rename(target_dir)
 
 
