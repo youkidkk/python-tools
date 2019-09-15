@@ -43,5 +43,15 @@
         "args": [
             "D:/Temp"
         ]
+    }, {
+        "name": "regex_renamer",
+        "type": "python",
+        "request": "launch",
+        "program": "${workspaceFolder}/ykdpytool/regex_renamer.py",
+        "console": "integratedTerminal",
+        "args": [
+            "D:/Temp",
+            "./config/regex_renamer.conf"
+        ]
     }]
 }
