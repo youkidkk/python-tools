@@ -34,5 +34,14 @@
         "args": [
             "D:/Temp"
         ]
+    }, {
+        "name": "front_match_remover",
+        "type": "python",
+        "request": "launch",
+        "program": "${workspaceFolder}/ykdpytool/front_match_remover.py",
+        "console": "integratedTerminal",
+        "args": [
+            "D:/Temp"
+        ]
     }]
 }
