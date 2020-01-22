@@ -8,6 +8,7 @@ from PIL.ExifTags import TAGS
 from ykdpyutil import files, datetimes, console
 
 
+TEXT_ERROR_DIST_NOT_EMPTY = "出力先ディレクトリが空ではないため終了します。{}"
 TEXT_CANT_GET_EXIF = "{} : EXIF情報が取得できないため、作成日時にてファイル名を設定します。 "
 TEXT_ADD_NUMBER = "{} : 出力先パスが存在するため、連番を付与しました。  "
 TEXT_COMPLETE = "\r{}/{} 完了しました。 {}"
@@ -73,7 +74,10 @@ def get_dst_path(dst_parent, filename):
 def main():
     src_root, dst_root, pattern = get_args()
 
-    files.clear_dir(dst_root)
+    # 出力先ディレクトリのチェック
+    if len(files.get_paths(dst_root, recursive=True)) > 1:
+        print(TEXT_ERROR_DIST_NOT_EMPTY.format(dst_root))
+        return
 
     list = files.get_files(
         src_root,
