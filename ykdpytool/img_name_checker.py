@@ -53,7 +53,7 @@ def is_exclude_file(file):
 
 
 target = get_args()
-dir_list = files.get_dirs(target)
+dir_list = files.get_dirs(target, path_filter=lambda p: not is_exclude_dir(p))
 for dir in dir_list:
     dir_name = dir.name
     if not check_dir_name(dir):
