@@ -52,13 +52,19 @@ def is_exclude_file(file):
     return False
 
 
+error_list = []
 target = get_args()
 dir_list = files.get_dirs(target, path_filter=lambda p: not is_exclude_dir(p))
 for dir in dir_list:
     dir_name = dir.name
     if not check_dir_name(dir):
-        print("Invalid directory name: {}".format(dir_name))
+        error_list.append("Invalid directory name: {}".format(dir_name))
     if not check_sub_dir(dir):
-        print("Exists sub dir: {}".format(dir_name))
+        error_list.append("Exists sub dir: {}".format(dir_name))
     if not check_files(dir):
-        print("Invalid file name: {}".format(dir_name))
+        error_list.append("Invalid file name: {}".format(dir_name))
+if len(error_list) > 0:
+    for error in error_list:
+        print(error)
+else:
+    print("No error")
