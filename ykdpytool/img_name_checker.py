@@ -6,6 +6,7 @@ from pathlib import Path
 from ykdpyutil import files
 
 PATTERN_DIR_NAME = re.compile(r"^\[[^\]]+\]\[[^\]]+\].+$")
+EXCLUDE_DIR_NAMES = ["PxDownloader"]
 EXCLUDE_FILE_NAMES = ["Thumbs.db"]
 
 
@@ -35,6 +36,13 @@ def check_files(dir):
         if name not in name_list:
             return False
     return True
+
+
+def is_exclude_dir(dir):
+    dir_name = dir.name
+    if dir_name in EXCLUDE_DIR_NAMES:
+        return True
+    return False
 
 
 def is_exclude_file(file):
