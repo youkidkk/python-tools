@@ -74,38 +74,39 @@ def get_dst_path(dst_parent, filename):
 def main():
     src_root, dst_root, pattern = get_args()
 
-    # 出力先ディレクトリのチェック
-    if len(files.get_paths(dst_root, recursive=True)) > 1:
-        print(TEXT_ERROR_DIST_NOT_EMPTY.format(dst_root))
-        return
+    try:
+        # 出力先ディレクトリのチェック
+        files.check_empty(dst_root)
 
-    list = files.get_files(
-        src_root,
-        recursive=True,
-        path_filter=lambda p: files.get_suffix(p).lower() == "jpg")
-    count = 1
-    total = len(list)
+        list = files.get_files(
+            src_root,
+            recursive=True,
+            path_filter=lambda p: files.get_suffix(p).lower() == "jpg")
+        count = 1
+        total = len(list)
 
-    lp = console.LinePrinter()
-    for src_path in list:
-        rel_path = src_path.relative_to(src_root)
-        dst_parent = Path(dst_root, rel_path).parent
+        lp = console.LinePrinter()
+        for src_path in list:
+            rel_path = src_path.relative_to(src_root)
+            dst_parent = Path(dst_root, rel_path).parent
 
-        dt = get_datetime(src_path)
+            dt = get_datetime(src_path)
 
-        filename = dt.strftime(pattern)
-        dst_path = get_dst_path(dst_parent, filename)
+            filename = dt.strftime(pattern)
+            dst_path = get_dst_path(dst_parent, filename)
 
-        files.copy(src_path, dst_path)
-        files.modify_times(dst_path, dt)
+            files.copy(src_path, dst_path)
+            files.modify_times(dst_path, dt)
 
-        dst_rel = dst_path.relative_to(dst_root)
-        result_text = TEXT_COMPLETE.format(
-            str(count).rjust(len(str(total))), total, str(dst_rel))
-        lp.print(result_text)
+            dst_rel = dst_path.relative_to(dst_root)
+            result_text = TEXT_COMPLETE.format(
+                str(count).rjust(len(str(total))), total, str(dst_rel))
+            lp.print(result_text)
 
-        count += 1
-    print("\n" + TEXT_END)
+            count += 1
+        print("\n" + TEXT_END)
+    except Exception as e:
+        print(e)
 
 
 if __name__ == '__main__':
