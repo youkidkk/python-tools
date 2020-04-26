@@ -4,9 +4,8 @@ url = "https://pypi.org/simple"
 verify_ssl = true
 
 [dev-packages]
-pylint = "*"
-"autopep8" = "*"
-"flake8" = "*"
+autopep8 = "*"
+flake8 = "*"
 mypy = "*"
 
 [packages]
@@ -14,4 +13,4 @@ pillow = "*"
 ykdpyutil = {git = "https://github.com/youkidkk/python-utils",ref = "0.0.1"}
 
 [requires]
-python_version = "3.7"
+python_version = "3.8"
