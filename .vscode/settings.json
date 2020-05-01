@@ -7,7 +7,4 @@
     "python.linting.pylintEnabled": false,
     "python.terminal.activateEnvInCurrentTerminal": true,
     "python.venvPath": ".venv",
-    "terminal.integrated.env.windows": {
-        "PYTHONPATH": "${workspaceFolder}",
-    },
 }
