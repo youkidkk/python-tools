@@ -1,7 +1,8 @@
 import argparse
+import msvcrt
 import re
-from msvcrt import getch
 from pathlib import Path
+
 from ykdpyutil import files
 
 
@@ -19,7 +20,7 @@ def load_config(path):
 
 def confirm():
     while True:
-        inp = chr(ord(getch()))
+        inp = chr(ord(msvcrt.getch()))
         inpl = inp.lower()
         if inpl == "y":
             return True
