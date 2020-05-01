@@ -35,7 +35,7 @@ def check_dir(path: Path) -> bool:
     if path.is_file():
         print("'{}' is not directory.".format(path))
         return False
-    if len(files.get_paths(path, recursive=True)) > 1:
+    if len(files.get_paths(path, recursive=True)) > 0:
         print("'{}' is not empty.".format(path))
         return False
     return True
