@@ -8,6 +8,12 @@ from ykdpyutil import files
 
 CONF_DIR = "./config/img_name_checker/"
 
+pattern_dir_name = None
+pattern_file_name = None
+file_suffix_list = None
+exclude_dir_names = None
+exclude_file_names = None
+
 
 def get_args():
     parser = argparse.ArgumentParser()
