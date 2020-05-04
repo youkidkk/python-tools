@@ -10,7 +10,7 @@ mypy = "*"
 
 [packages]
 pillow = "*"
-ykdpyutil = {git = "https://github.com/youkidkk/python-utils",ref = "0.0.1"}
+ykdpyutil = {git = "https://github.com/youkidkk/python-utils",ref = "0.0.3"}
 
 [requires]
 python_version = "3.8"
