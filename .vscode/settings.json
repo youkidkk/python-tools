@@ -9,5 +9,5 @@
     "python.linting.mypyEnabled": true,
     "python.linting.pylintEnabled": false,
     "python.terminal.activateEnvInCurrentTerminal": true,
-    "python.venvPath": ".venv",
+    "python.venvPath": "{$workspaceFolder}/.venv",
 }
